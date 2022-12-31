@@ -1,0 +1,9 @@
+separator = _{","}
+field_character = _{ !("\"") ~ ANY}
+double_speechmark = _{ "\"\"" }
+speechmark_field = _{ "\"" ~ (double_speechmark | field_character )* ~ "\"" }
+normal_field = _{ (!(separator | NEWLINE) ~ ANY)* }
+
+field = { speechmark_field | normal_field }
+record = { field ~ (separator ~ field)* }
+file = { SOI ~ (record ~ NEWLINE)* ~ EOI }
